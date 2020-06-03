@@ -15,29 +15,31 @@ use Livewire\Component;
 class LivewireSelect extends Component
 {
     public $name;
+    public $placeholder;
 
     public $value;
 
+    public $searchable;
     public $searchTerm;
 
-    public $searchable;
-
     public $dependsOn;
-
     public $dependsOnValues;
 
     public function mount($name,
                           $value = null,
+                          $placeholder = 'Search',
                           $searchable = false,
                           $dependsOn = [],
                           $dependsOnValues = [],
                           $extras = null)
     {
         $this->name = $name;
+        $this->placeholder = $placeholder;
 
         $this->value = $value;
 
         $this->searchable = $searchable;
+        $this->searchTerm = '';
 
         $this->dependsOn = $dependsOn;
 

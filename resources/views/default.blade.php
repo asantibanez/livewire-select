@@ -3,7 +3,9 @@
     class="{{ $styles }}"
     wire:model="value">
 
-    <option value="">Select an Option</option>
+    <option value="">
+        {{ $placeholder }}
+    </option>
 
     @foreach($options as $option)
         <option value="{{ $option['value'] }}">

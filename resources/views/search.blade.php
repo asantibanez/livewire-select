@@ -2,7 +2,7 @@
 
     @include('livewire-select::search-input', [
         'name' => $name,
-        'placeholder' => 'Search',
+        'placeholder' => $placeholder,
     ])
 
     @include('livewire-select::search-options-container', [

@@ -5,6 +5,7 @@
             @include('livewire-select::default', [
                 'name' => $name,
                 'options' => $options,
+                'placeholder' => $placeholder,
                 'styles' => 'p-2 rounded border w-full appearance-none',
             ])
         @endif
@@ -23,6 +24,7 @@
                 @else
                     @include('livewire-select::search', [
                         'name' => $name,
+                        'placeholder' => $placeholder,
                         'options' => $options,
                         'isSearching' => !empty($searchTerm),
                         'emptyOptions' => $options->isEmpty(),
