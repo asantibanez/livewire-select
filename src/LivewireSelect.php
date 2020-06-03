@@ -27,7 +27,7 @@ class LivewireSelect extends Component
 
     public function mount($name,
                           $value = null,
-                          $placeholder = 'Search',
+                          $placeholder = 'Select an option',
                           $searchable = false,
                           $dependsOn = [],
                           $dependsOnValues = [],
