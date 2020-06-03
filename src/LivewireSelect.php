@@ -15,6 +15,7 @@ use Livewire\Component;
  * @property string $searchTerm
  * @property array $dependsOn
  * @property array $dependsOnValues
+ * @property boolean $waitForDependenciesToShow
  */
 class LivewireSelect extends Component
 {
@@ -29,12 +30,15 @@ class LivewireSelect extends Component
     public $dependsOn;
     public $dependsOnValues;
 
+    public $waitForDependenciesToShow;
+
     public function mount($name,
                           $value = null,
                           $placeholder = 'Select an option',
                           $searchable = false,
                           $dependsOn = [],
                           $dependsOnValues = [],
+                          $waitForDependenciesToShow = false,
                           $extras = null)
     {
         $this->name = $name;
@@ -56,6 +60,8 @@ class LivewireSelect extends Component
                 ];
             })
             ->toArray();
+
+        $this->waitForDependenciesToShow = $waitForDependenciesToShow;
 
         $this->afterMount($extras);
     }
@@ -140,6 +146,15 @@ class LivewireSelect extends Component
         return !empty($this->searchTerm);
     }
 
+    public function allDependenciesMet()
+    {
+        return collect($this->dependsOnValues)
+            ->reject(function ($value) {
+                return $value != null;
+            })
+            ->isEmpty();
+    }
+
     public function render()
     {
         if ($this->searchable) {
@@ -156,10 +171,15 @@ class LivewireSelect extends Component
             $selectedOption = $this->selectedOption($this->value);
         }
 
+        $shouldShow = $this->waitForDependenciesToShow
+            ? $this->allDependenciesMet()
+            : true;
+
         return view('livewire-select::select')
             ->with([
                 'options' => $options,
                 'selectedOption' => $selectedOption ?? null,
+                'shouldShow' => $shouldShow,
             ]);
     }
 }

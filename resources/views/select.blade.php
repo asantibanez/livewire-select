@@ -1,7 +1,7 @@
 <div>
 
     <div>
-        @if(!$searchable)
+        @if(!$searchable && $shouldShow)
             @include('livewire-select::default', [
                 'name' => $name,
                 'options' => $options,
@@ -12,7 +12,7 @@
     </div>
 
     <div>
-        @if($searchable)
+        @if($searchable && $shouldShow)
             <div>
                 @if(!empty($value))
                     @include('livewire-select::selected-option', [
