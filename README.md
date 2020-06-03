@@ -1,11 +1,10 @@
-# Very short description of the package
+# Livewire Select
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/asantibanez/livewire-select.svg?style=flat-square)](https://packagist.org/packages/asantibanez/livewire-select)
-[![Build Status](https://img.shields.io/travis/asantibanez/livewire-select/master.svg?style=flat-square)](https://travis-ci.org/asantibanez/livewire-select)
-[![Quality Score](https://img.shields.io/scrutinizer/g/asantibanez/livewire-select.svg?style=flat-square)](https://scrutinizer-ci.com/g/asantibanez/livewire-select)
-[![Total Downloads](https://img.shields.io/packagist/dt/asantibanez/livewire-select.svg?style=flat-square)](https://packagist.org/packages/asantibanez/livewire-select)
+Livewire component for dependant and/or searchable select inputs
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+# Preview
+
+![preview](https://github.com/asantibanez/livewire-select/raw/master/preview.gif) 
 
 ## Installation
 
@@ -17,9 +16,7 @@ composer require asantibanez/livewire-select
 
 ## Usage
 
-``` php
-// Usage description here
-```
+// TODO 😅
 
 ### Testing
 
@@ -47,7 +44,3 @@ If you discover any security related issues, please email santibanez.andres@gmai
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).
