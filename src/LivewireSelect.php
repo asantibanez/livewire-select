@@ -128,7 +128,7 @@ class LivewireSelect extends Component
         $this->value = $value;
 
         if ($this->searchable && $this->value == null) {
-            $this->emit("focus-search", ['name' => $this->name]);
+            $this->emit('livewire-select-focus-search', ['name' => $this->name]);
         }
 
         $this->notifyValueChanged();
