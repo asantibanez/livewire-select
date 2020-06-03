@@ -27,22 +27,27 @@ class LivewireSelect extends Component
     public $dependsOnValues;
 
     public function mount($name,
-                          $initialValue = null,
+                          $value = null,
                           $searchable = false,
                           $dependsOn = [],
+                          $dependsOnValues = [],
                           $extras = null)
     {
         $this->name = $name;
 
-        $this->value = $initialValue;
+        $this->value = $value;
 
         $this->searchable = $searchable;
 
         $this->dependsOn = $dependsOn;
 
         $this->dependsOnValues = collect($this->dependsOn)
-            ->mapWithKeys(function ($key) {
-                return [$key => null];
+            ->mapWithKeys(function ($key) use ($dependsOnValues) {
+                $value = collect($dependsOnValues)->get($key);
+
+                return [
+                    $key => $value,
+                ];
             })
             ->toArray();
 
@@ -58,7 +63,7 @@ class LivewireSelect extends Component
     {
         return collect($this->dependsOn)
             ->mapWithKeys(function ($key) {
-                return ["{$key}Updated" => 'checkDependsOnValues'];
+                return ["{$key}Updated" => 'updateDependingValue'];
             })
             ->toArray();
     }
@@ -81,20 +86,27 @@ class LivewireSelect extends Component
         ]);
     }
 
-    public function checkDependsOnValues($data)
+    public function selectValue($value)
+    {
+        $this->value = $value;
+
+        if ($this->searchable && $this->value == null) {
+            $this->emit("focus-search", ['name' => $this->name]);
+        }
+
+        $this->notifyValueChanged();
+    }
+
+    public function updatedValue()
+    {
+        $this->selectValue($this->value);
+    }
+
+    public function updateDependingValue($data)
     {
         $name = $data['name'];
         $value = $data['value'];
 
-        if (!$this->hasDependency($name)) {
-            return;
-        }
-
-        $this->updateDependingValue($name, $value);
-    }
-
-    private function updateDependingValue($name, $value)
-    {
         $oldValue = $this->getDependingValue($name);
 
         $this->dependsOnValues = collect($this->dependsOnValues)
@@ -117,21 +129,15 @@ class LivewireSelect extends Component
         return collect($this->dependsOnValues)->get($name);
     }
 
-    public function selectValue($value)
+    public function isSearching()
     {
-        $this->value = $value;
-
-        if ($this->searchable && $this->value == null) {
-            $this->emit("focus-search", ['componentId' => $this->id]);
-        }
-
-        $this->notifyValueChanged();
+        return !empty($this->searchTerm);
     }
 
     public function render()
     {
         if ($this->searchable) {
-            if (!empty($this->searchTerm)) {
+            if ($this->isSearching()) {
                 $options = $this->options($this->searchTerm);
             } else {
                 $options = collect();
@@ -142,14 +148,10 @@ class LivewireSelect extends Component
 
         $selectedOption = $this->selectedOption($this->value);
 
-        $listeners = $this->getListeners();
-
         return view('livewire-select::select')
             ->with([
                 'options' => $options,
                 'selectedOption' => $selectedOption,
-                'componentId' => $this->id,
-                'listeners' => $listeners,
             ]);
     }
 }
