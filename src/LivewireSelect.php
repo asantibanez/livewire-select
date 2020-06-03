@@ -9,8 +9,12 @@ use Livewire\Component;
  * Class LivewireSelect
  * @package Asantibanez\LivewireSelect
  * @property string $name
+ * @property string $placeholder
  * @property mixed $value
  * @property boolean $searchable
+ * @property string $searchTerm
+ * @property array $dependsOn
+ * @property array $dependsOnValues
  */
 class LivewireSelect extends Component
 {
@@ -61,21 +65,12 @@ class LivewireSelect extends Component
         //
     }
 
-    public function getListeners()
-    {
-        return collect($this->dependsOn)
-            ->mapWithKeys(function ($key) {
-                return ["{$key}Updated" => 'updateDependingValue'];
-            })
-            ->toArray();
-    }
-
     public function options($searchTerm = null) : Collection
     {
         return collect();
     }
 
-    public function selectedOption($value = null)
+    public function selectedOption($value)
     {
         return null;
     }
@@ -102,6 +97,15 @@ class LivewireSelect extends Component
     public function updatedValue()
     {
         $this->selectValue($this->value);
+    }
+
+    public function getListeners()
+    {
+        return collect($this->dependsOn)
+            ->mapWithKeys(function ($key) {
+                return ["{$key}Updated" => 'updateDependingValue'];
+            })
+            ->toArray();
     }
 
     public function updateDependingValue($data)
@@ -148,12 +152,14 @@ class LivewireSelect extends Component
             $options = $this->options($this->searchTerm);
         }
 
-        $selectedOption = $this->selectedOption($this->value);
+        if ($this->value != null) {
+            $selectedOption = $this->selectedOption($this->value);
+        }
 
         return view('livewire-select::select')
             ->with([
                 'options' => $options,
-                'selectedOption' => $selectedOption,
+                'selectedOption' => $selectedOption ?? null,
             ]);
     }
 }
