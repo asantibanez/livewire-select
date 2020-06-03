@@ -1,0 +1,56 @@
+{
+    "name": "asantibanez/livewire-select",
+    "description": "Livewire dropdown select component",
+    "keywords": [
+        "asantibanez",
+        "livewire-select"
+    ],
+    "homepage": "https://github.com/asantibanez/livewire-select",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Andrés Santibáñez",
+            "email": "santibanez.andres@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "^6.0|^7.0",
+        "livewire/livewire": "^1.1",
+        "spatie/macroable": "^1.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Asantibanez\\LivewireSelect\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Asantibanez\\LivewireSelect\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Asantibanez\\LivewireSelect\\LivewireSelectServiceProvider"
+            ],
+            "aliases": {
+                "LivewireSelect": "Asantibanez\\LivewireSelect\\LivewireSelectFacade"
+            }
+        }
+    }
+}
