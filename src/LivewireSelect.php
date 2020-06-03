@@ -16,6 +16,14 @@ use Livewire\Component;
  * @property array $dependsOn
  * @property array $dependsOnValues
  * @property boolean $waitForDependenciesToShow
+ * @property string $selectView
+ * @property string $defaultView
+ * @property string $searchView
+ * @property string $searchInputView
+ * @property string $searchOptionsContainer
+ * @property string $searchOptionItem
+ * @property string $searchSelectedOptionView
+ * @property string $searchNoResultsView
  */
 class LivewireSelect extends Component
 {
@@ -32,6 +40,15 @@ class LivewireSelect extends Component
 
     public $waitForDependenciesToShow;
 
+    public $selectView;
+    public $defaultView;
+    public $searchView;
+    public $searchInputView;
+    public $searchOptionsContainer;
+    public $searchOptionItem;
+    public $searchSelectedOptionView;
+    public $searchNoResultsView;
+
     public function mount($name,
                           $value = null,
                           $placeholder = 'Select an option',
@@ -39,6 +56,14 @@ class LivewireSelect extends Component
                           $dependsOn = [],
                           $dependsOnValues = [],
                           $waitForDependenciesToShow = false,
+                          $selectView = 'livewire-select::select',
+                          $defaultView = 'livewire-select::default',
+                          $searchView = 'livewire-select::search',
+                          $searchInputView = 'livewire-select::search-input',
+                          $searchOptionsContainer = 'livewire-select::search-options-container',
+                          $searchOptionItem = 'livewire-select::search-option-item',
+                          $searchSelectedOptionView = 'livewire-select::search-selected-option',
+                          $searchNoResultsView = 'livewire-select::search-no-results',
                           $extras = null)
     {
         $this->name = $name;
@@ -62,6 +87,15 @@ class LivewireSelect extends Component
             ->toArray();
 
         $this->waitForDependenciesToShow = $waitForDependenciesToShow;
+
+        $this->selectView = $selectView;
+        $this->defaultView = $defaultView;
+        $this->searchView = $searchView;
+        $this->searchInputView = $searchInputView;
+        $this->searchOptionsContainer = $searchOptionsContainer;
+        $this->searchOptionItem = $searchOptionItem;
+        $this->searchSelectedOptionView = $searchSelectedOptionView;
+        $this->searchNoResultsView = $searchNoResultsView;
 
         $this->afterMount($extras);
     }
@@ -175,7 +209,7 @@ class LivewireSelect extends Component
             ? $this->allDependenciesMet()
             : true;
 
-        return view('livewire-select::select')
+        return view($this->selectView)
             ->with([
                 'options' => $options,
                 'selectedOption' => $selectedOption ?? null,

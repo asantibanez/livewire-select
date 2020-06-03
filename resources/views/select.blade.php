@@ -2,7 +2,7 @@
 
     <div>
         @if(!$searchable && $shouldShow)
-            @include('livewire-select::default', [
+            @include($defaultView, [
                 'name' => $name,
                 'options' => $options,
                 'placeholder' => $placeholder,
@@ -15,14 +15,14 @@
         @if($searchable && $shouldShow)
             <div>
                 @if(!empty($value))
-                    @include('livewire-select::selected-option', [
+                    @include($searchSelectedOptionView, [
                         'styles' => 'p-2 rounded border w-full bg-white cursor-pointer',
                         'selectedOption' => $selectedOption,
                         'value' => $value,
                         'name' => $name,
                     ])
                 @else
-                    @include('livewire-select::search', [
+                    @include($searchView, [
                         'name' => $name,
                         'placeholder' => $placeholder,
                         'options' => $options,

@@ -2,14 +2,12 @@
     @if(!$emptyOptions)
         <div class="w-full bg-white border">
             @foreach($options as $option)
-                @include('livewire-select::search-option-item', [
+                @include($searchOptionItem, [
                     'option' => $option,
                 ])
             @endforeach
         </div>
     @elseif ($isSearching)
-        <p class="p-8 w-full bg-white border text-center text-sm">
-            No options found
-        </p>
+        @include($searchNoResultsView)
     @endif
 </div>

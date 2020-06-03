@@ -1,11 +1,11 @@
 <div id="options" class="relative">
 
-    @include('livewire-select::search-input', [
+    @include($searchInputView, [
         'name' => $name,
         'placeholder' => $placeholder,
     ])
 
-    @include('livewire-select::search-options-container', [
+    @include($searchOptionsContainer, [
         'options' => $options,
         'emptyOptions' => $emptyOptions,
         'isSearching' => $isSearching,
