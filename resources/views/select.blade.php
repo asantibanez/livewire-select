@@ -16,7 +16,7 @@
             <div>
                 @if(!empty($value))
                     @include($searchSelectedOptionView, [
-                        'styles' => 'p-2 rounded border w-full bg-white cursor-pointer',
+                        'styles' => 'p-2 rounded border w-full bg-white flex items-center',
                         'selectedOption' => $selectedOption,
                         'value' => $value,
                         'name' => $name,
