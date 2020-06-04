@@ -1,13 +1,14 @@
-<div class="absolute top-0 left-0 mt-12 w-full">
+<div class="{{ $styles['searchOptionsContainer'] }}">
     @if(!$emptyOptions)
-        <div class="w-full bg-white border">
-            @foreach($options as $option)
-                @include($searchOptionItem, [
-                    'option' => $option,
-                ])
-            @endforeach
-        </div>
+        @foreach($options as $option)
+            @include($searchOptionItem, [
+                'option' => $option,
+                'styles' => $styles,
+            ])
+        @endforeach
     @elseif ($isSearching)
-        @include($searchNoResultsView)
+        @include($searchNoResultsView, [
+            'styles' => $styles,
+        ])
     @endif
 </div>

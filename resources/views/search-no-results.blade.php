@@ -1,3 +1,3 @@
-<p class="p-8 w-full bg-white border text-center text-sm">
+<p class="{{ $styles['searchNoResults'] }}">
     No options found
 </p>

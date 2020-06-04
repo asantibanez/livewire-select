@@ -6,7 +6,7 @@
                 'name' => $name,
                 'options' => $options,
                 'placeholder' => $placeholder,
-                'styles' => 'p-2 rounded border w-full appearance-none',
+                'styles' => $styles,
             ])
         @endif
     </div>
@@ -16,7 +16,7 @@
             <div>
                 @if(!empty($value))
                     @include($searchSelectedOptionView, [
-                        'styles' => 'p-2 rounded border w-full bg-white flex items-center',
+                        'styles' => $styles,
                         'selectedOption' => $selectedOption,
                         'value' => $value,
                         'name' => $name,
@@ -28,6 +28,7 @@
                         'options' => $options,
                         'isSearching' => !empty($searchTerm),
                         'emptyOptions' => $options->isEmpty(),
+                        'styles' => $styles,
                     ])
                 @endif
             </div>

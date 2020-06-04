@@ -189,6 +189,23 @@ class LivewireSelect extends Component
             ->isEmpty();
     }
 
+    public function styles()
+    {
+        return [
+            'default' => 'p-2 rounded border w-full appearance-none',
+
+            'searchSelectedOption' => 'p-2 rounded border w-full bg-white flex items-center',
+            'searchSelectedOptionTitle' => 'w-full text-gray-900',
+            'searchSelectedOptionReset' => 'h-4 w-4 text-gray-500',
+
+            'search' => 'relative',
+            'searchInput' => 'p-2 rounded border w-full rounded',
+            'searchOptionsContainer' => 'absolute top-0 left-0 mt-12 w-full',
+            'searchOptionItem' => 'bg-white p-3 border-b hover:bg-gray-100 cursor-pointer text-gray-700 text-sm',
+            'searchNoResults' => 'p-8 w-full bg-white border text-center text-xs text-gray-600',
+        ];
+    }
+
     public function render()
     {
         if ($this->searchable) {
@@ -209,11 +226,14 @@ class LivewireSelect extends Component
             ? $this->allDependenciesMet()
             : true;
 
+        $styles = $this->styles();
+
         return view($this->selectView)
             ->with([
                 'options' => $options,
                 'selectedOption' => $selectedOption ?? null,
                 'shouldShow' => $shouldShow,
+                'styles' => $styles,
             ]);
     }
 }
