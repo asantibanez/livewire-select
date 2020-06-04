@@ -64,7 +64,7 @@ class LivewireSelect extends Component
                           $searchOptionItem = 'livewire-select::search-option-item',
                           $searchSelectedOptionView = 'livewire-select::search-selected-option',
                           $searchNoResultsView = 'livewire-select::search-no-results',
-                          $extras = null)
+                          $extras = [])
     {
         $this->name = $name;
         $this->placeholder = $placeholder;
@@ -100,7 +100,7 @@ class LivewireSelect extends Component
         $this->afterMount($extras);
     }
 
-    public function afterMount($extras = null)
+    public function afterMount($extras = [])
     {
         //
     }
