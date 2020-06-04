@@ -18,8 +18,7 @@
     "require": {
         "php": "^7.1",
         "illuminate/support": "^6.0|^7.0",
-        "livewire/livewire": "^1.1",
-        "spatie/macroable": "^1.0"
+        "livewire/livewire": "^1.1"
     },
     "require-dev": {
         "orchestra/testbench": "^4.0",
