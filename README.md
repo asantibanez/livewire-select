@@ -202,6 +202,10 @@ To filter the options in the dropdown, you can use the `$searchTerm` parameter i
 
 // TODO 😬
 
+### AlpineJs support
+
+Add AlpineJs for arrow-keys navigation, enter key for selection, enter/space keys for reset. 😎
+
 ### Testing
 
 ``` bash
