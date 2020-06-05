@@ -31,6 +31,7 @@ class LivewireSelect extends Component
     public $placeholder;
 
     public $value;
+    public $optionsValues;
 
     public $searchable;
     public $searchTerm;
@@ -131,6 +132,10 @@ class LivewireSelect extends Component
             $this->emit('livewire-select-focus-search', ['name' => $this->name]);
         }
 
+        if ($this->searchable && $this->value != null) {
+            $this->emit('livewire-select-focus-selected', ['name' => $this->name]);
+        }
+
         $this->notifyValueChanged();
     }
 
@@ -161,6 +166,7 @@ class LivewireSelect extends Component
 
         if ($oldValue != null && $oldValue != $value) {
             $this->value = null;
+            $this->searchTerm = null;
             $this->notifyValueChanged();
         }
     }
@@ -195,7 +201,7 @@ class LivewireSelect extends Component
             'default' => 'p-2 rounded border w-full appearance-none',
 
             'searchSelectedOption' => 'p-2 rounded border w-full bg-white flex items-center',
-            'searchSelectedOptionTitle' => 'w-full text-gray-900',
+            'searchSelectedOptionTitle' => 'w-full text-gray-900 text-left',
             'searchSelectedOptionReset' => 'h-4 w-4 text-gray-500',
 
             'search' => 'relative',
@@ -217,6 +223,8 @@ class LivewireSelect extends Component
         } else {
             $options = $this->options($this->searchTerm);
         }
+
+        $this->optionsValues = $options->pluck('value')->toArray();
 
         if ($this->value != null) {
             $selectedOption = $this->selectedOption($this->value);

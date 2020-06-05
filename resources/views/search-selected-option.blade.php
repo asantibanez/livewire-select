@@ -1,14 +1,18 @@
-<div
-    id="selected-value"
+<button
+    id="{{ $name }}-selected"
+    type="button"
     class="{{ $styles['searchSelectedOption'] }}"
->
-    <p class="{{ $styles['searchSelectedOptionTitle'] }}">
-        {{ data_get($selectedOption, 'title', 'Override selectedOption method for a meaningful description') }}
-    </p>
 
-    <button
+    x-on:keydown.enter.prevent="removeSelection(@this)"
+    x-on:keydown.space.prevent="removeSelection(@this)"
+>
+    <span class="{{ $styles['searchSelectedOptionTitle'] }}">
+        {{ data_get($selectedOption, 'title', 'Override selectedOption method for a meaningful description') }}
+    </span>
+
+    <span
         type="button"
-        wire:click.stop="selectValue(null)"
+        wire:click.prevent="selectValue(null)"
     >
         <svg class="{{ $styles['searchSelectedOptionReset'] }}" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd"
@@ -16,8 +20,8 @@
                   clip-rule="evenodd"
             />
         </svg>
-    </button>
+    </span>
 
     <input type="hidden" value="{{ $value }}" name="{{ $name }}">
 
-</div>
+</button>
