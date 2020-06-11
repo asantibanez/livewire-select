@@ -4,6 +4,7 @@ namespace Asantibanez\LivewireSelect;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 
 class LivewireSelectServiceProvider extends ServiceProvider
 {
@@ -28,30 +29,32 @@ class LivewireSelectServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'livewire-select');
 
-        Blade::directive('livewireSelectScripts', function () {
-            return <<<'HTML'
-                <script>
-                    window.livewire.on('livewire-select-focus-search', (data) => {
-                        const el = document.getElementById(`${data.name || 'invalid'}`);
+        $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
+            Blade::directive('livewireSelectScripts', function () {
+                return <<<'HTML'
+                    <script>
+                        window.livewire.on('livewire-select-focus-search', (data) => {
+                            const el = document.getElementById(`${data.name || 'invalid'}`);
 
-                        if (!el) {
-                            return;
-                        }
+                            if (!el) {
+                                return;
+                            }
 
-                        el.focus();
-                    });
+                            el.focus();
+                        });
 
-                    window.livewire.on('livewire-select-focus-selected', (data) => {
-                        const el = document.getElementById(`${data.name || 'invalid'}-selected`);
+                        window.livewire.on('livewire-select-focus-selected', (data) => {
+                            const el = document.getElementById(`${data.name || 'invalid'}-selected`);
 
-                        if (!el) {
-                            return;
-                        }
+                            if (!el) {
+                                return;
+                            }
 
-                        el.focus();
-                    });
-                </script>
+                            el.focus();
+                        });
+                    </script>
 HTML;
+            });
         });
     }
 }
