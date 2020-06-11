@@ -1,6 +1,5 @@
 <input
     id="{{ $name }}"
-    name="{{ $name }}"
     type="text"
     placeholder="{{ $placeholder }}"
     class="{{ $styles['searchInput'] }}"
