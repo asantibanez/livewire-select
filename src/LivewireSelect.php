@@ -16,6 +16,7 @@ use Livewire\Component;
  * @property array $dependsOn
  * @property array $dependsOnValues
  * @property boolean $waitForDependenciesToShow
+ * @property string $noResultsMessage
  * @property string $selectView
  * @property string $defaultView
  * @property string $searchView
@@ -41,6 +42,8 @@ class LivewireSelect extends Component
 
     public $waitForDependenciesToShow;
 
+    public $noResultsMessage;
+
     public $selectView;
     public $defaultView;
     public $searchView;
@@ -57,6 +60,7 @@ class LivewireSelect extends Component
                           $dependsOn = [],
                           $dependsOnValues = [],
                           $waitForDependenciesToShow = false,
+                          $noResultsMessage = 'No options found',
                           $selectView = 'livewire-select::select',
                           $defaultView = 'livewire-select::default',
                           $searchView = 'livewire-select::search',
@@ -88,6 +92,8 @@ class LivewireSelect extends Component
             ->toArray();
 
         $this->waitForDependenciesToShow = $waitForDependenciesToShow;
+
+        $this->noResultsMessage = $noResultsMessage;
 
         $this->selectView = $selectView;
         $this->defaultView = $defaultView;
