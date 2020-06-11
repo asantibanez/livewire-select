@@ -3,7 +3,7 @@
 
     wire:click.stop="selectValue('{{ $option['value'] }}')"
 
-    x-bind:class="{ 'bg-gray-100': selectedIndex === {{ $index }} }"
+    x-bind:class="{ '{{ $styles['searchOptionItemActive'] }}': selectedIndex === {{ $index }}, '{{ $styles['searchOptionItemInactive'] }}': selectedIndex !== {{ $index }} }"
     x-on:mouseover="selectedIndex = {{ $index }}"
 >
     {{ $option['description'] }}
