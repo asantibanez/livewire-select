@@ -7,7 +7,7 @@
     x-on:keydown.space.prevent="removeSelection(@this)"
 >
     <span class="{{ $styles['searchSelectedOptionTitle'] }}">
-        {{ data_get($selectedOption, 'title', 'Override selectedOption method for a meaningful description') }}
+        {{ data_get($selectedOption, 'description', 'Override selectedOption() with keyed array (value, description) for meaningful description') }}
     </span>
 
     <span
