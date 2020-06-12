@@ -224,14 +224,11 @@ class LivewireSelect extends Component
 
     public function render()
     {
-        if ($this->searchable) {
-            if ($this->isSearching()) {
-                $options = $this->options($this->searchTerm);
-            } else {
-                $options = collect();
-            }
-        } else {
-            $options = $this->options($this->searchTerm);
+        
+        $options = $this->options($this->searchTerm);
+        
+        if ($this->searchable && !$this->isSearching()) {
+            $options = collect();
         }
 
         $this->optionsValues = $options->pluck('value')->toArray();
