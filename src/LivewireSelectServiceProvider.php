@@ -2,7 +2,6 @@
 
 namespace Asantibanez\LivewireSelect;
 
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
@@ -30,7 +29,7 @@ class LivewireSelectServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'livewire-select');
 
         $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
-            Blade::directive('livewireSelectScripts', function () {
+            $bladeCompiler->directive('livewireSelectScripts', function () {
                 return <<<'HTML'
                     <script>
                         window.livewire.on('livewire-select-focus-search', (data) => {
