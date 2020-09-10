@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^7.1",
         "illuminate/support": "^6.0|^7.0|^8.0",
         "livewire/livewire": "^1.1"
     },
