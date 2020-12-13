@@ -2,6 +2,11 @@
 
 All notable changes to `livewire-select` will be documented in this file
 
-## 1.0.0 - 201X-XX-XX
+## 2.0.0 - 2020-12-13
 
-- initial release
+- Added support for Livewire V2
+- Added support for Laravel 8
+
+## 1.0.0 - 2020-06-03
+
+- Initial release. Enjoy! 👍
