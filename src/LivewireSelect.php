@@ -214,7 +214,7 @@ class LivewireSelect extends Component
             'searchInput' => 'p-2 rounded border w-full rounded',
             'searchOptionsContainer' => 'absolute top-0 left-0 mt-12 w-full z-10',
 
-            'searchOptionItem' => 'p-3 hover:bg-gray-100 cursor-pointer text-sm',
+            'searchOptionItem' => 'p-3 cursor-pointer text-sm',
             'searchOptionItemActive' => 'bg-indigo-600 text-white font-medium',
             'searchOptionItemInactive' => 'bg-white text-gray-600',
 
