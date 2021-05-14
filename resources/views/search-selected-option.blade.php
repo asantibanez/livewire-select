@@ -1,5 +1,5 @@
 <button
-    id="{{ $name }}-selected"
+    id="{{ $name }}"
     type="button"
     class="{{ $styles['searchSelectedOption'] }}"
 
