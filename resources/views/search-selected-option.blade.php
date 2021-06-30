@@ -2,9 +2,7 @@
     id="{{ $name }}-selected"
     type="button"
     class="{{ $styles['searchSelectedOption'] }}"
-
-    x-on:keydown.enter.prevent="removeSelection(@this)"
-    x-on:keydown.space.prevent="removeSelection(@this)"
+    x-on:click.prevent="removeSelection(@this)"
 >
     <span class="{{ $styles['searchSelectedOptionTitle'] }}">
         {{ data_get($selectedOption, 'description', 'Override selectedOption() with keyed array (value, description) for meaningful description') }}
