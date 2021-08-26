@@ -37,6 +37,8 @@ class LivewireSelect extends Component
     public $searchable;
     public $searchTerm;
 
+    public $multiple;
+
     public $dependsOn;
     public $dependsOnValues;
 
@@ -46,6 +48,7 @@ class LivewireSelect extends Component
 
     public $selectView;
     public $defaultView;
+    public $multipleView;
     public $searchView;
     public $searchInputView;
     public $searchOptionsContainer;
@@ -57,12 +60,14 @@ class LivewireSelect extends Component
                           $value = null,
                           $placeholder = 'Select an option',
                           $searchable = false,
+                          $multiple = false,
                           $dependsOn = [],
                           $dependsOnValues = [],
                           $waitForDependenciesToShow = false,
                           $noResultsMessage = 'No options found',
                           $selectView = 'livewire-select::select',
                           $defaultView = 'livewire-select::default',
+                          $multipleView = 'livewire-select::multiple',
                           $searchView = 'livewire-select::search',
                           $searchInputView = 'livewire-select::search-input',
                           $searchOptionsContainer = 'livewire-select::search-options-container',
@@ -78,6 +83,8 @@ class LivewireSelect extends Component
 
         $this->searchable = $searchable;
         $this->searchTerm = '';
+
+        $this->multiple = !!$multiple;
 
         $this->dependsOn = $dependsOn;
 
@@ -97,6 +104,7 @@ class LivewireSelect extends Component
 
         $this->selectView = $selectView;
         $this->defaultView = $defaultView;
+        $this->multipleView = $multipleView;
         $this->searchView = $searchView;
         $this->searchInputView = $searchInputView;
         $this->searchOptionsContainer = $searchOptionsContainer;
