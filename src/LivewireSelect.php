@@ -230,6 +230,42 @@ class LivewireSelect extends Component
         ];
     }
 
+    public function css($options = null) {
+        $assets = [
+
+        ];
+
+        return $this->renderAssets($assets, $options);
+    }
+
+    public function js($options = null) {
+        $assets = [
+            'livewireSelect' => '<script>
+                window.livewire.on(\'livewire-select-focus-search\', (data) => {
+                    const el = document.getElementById(`${data.name || \'invalid\'}`);
+
+                    if (!el) {
+                        return;
+                    }
+
+                    el.focus();
+                });
+
+                window.livewire.on(\'livewire-select-focus-selected\', (data) => {
+                    const el = document.getElementById(`${data.name || \'invalid\'}-selected`);
+
+                    if (!el) {
+                        return;
+                    }
+
+                    el.focus();
+                });
+            </script>',
+        ];
+
+        return $this->renderAssets($assets, $options);
+    }
+
     public function render()
     {
         if ($this->searchable) {
@@ -261,5 +297,34 @@ class LivewireSelect extends Component
                 'shouldShow' => $shouldShow,
                 'styles' => $styles,
             ]);
+    }
+
+    /**
+     * Generate a string of required assets
+     *
+     * @param array $assets
+     * @param array $options
+     *
+     * @return string
+     */
+    private function renderAssets($assets = [], $options = null) {
+        if ($options) {
+            $options = explode(',', $options);
+            $options[] = 'livewireSelect';
+            $assetArray = [];
+
+            foreach ($assets as $asset => $link) {
+                if (in_array($asset, $options)) {
+                    $assetArray[] = $link;
+                }
+            }
+        } else {
+            $assetArray = $assets;
+        }
+
+        $assetStr = implode(PHP_EOL, $assetArray);
+        return <<<HTML
+            {$assetStr}
+        HTML;
     }
 }
