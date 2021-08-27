@@ -262,7 +262,7 @@ class LivewireSelect extends Component
                 });
             </script>',
             'livewireSelectMultiple' => '<script>
-            function dropdown($el) {
+            function livewireSelectMultiSelectDropdown($el) {
                 // Select the node that will be observed for mutations
                 var innerSelectTargetNode = $el.querySelector(\'.livewire-select-input\');
 

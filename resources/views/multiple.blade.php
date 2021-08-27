@@ -1,5 +1,5 @@
 <div
-    x-data="dropdown($el)"
+    x-data="livewireSelectMultiSelectDropdown($el)"
     x-init="loadOptions($el.querySelector('.livewire-select-input'))"
     @livewireselectoptionsloaded="loadOptions($el.querySelector('.livewire-select-input'))"
     class="w-full flex flex-col items-center"
