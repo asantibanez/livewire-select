@@ -161,11 +161,11 @@ class LivewireSelect extends Component
 
     public function getListeners()
     {
-        return collect($this->dependsOn)
+        return array_merge(collect($this->dependsOn)
             ->mapWithKeys(function ($key) {
                 return ["{$key}Updated" => 'updateDependingValue'];
             })
-            ->toArray();
+            ->toArray(), $this->listeners);
     }
 
     public function updateDependingValue($data)
