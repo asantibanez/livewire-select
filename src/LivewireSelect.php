@@ -261,6 +261,85 @@ class LivewireSelect extends Component
                     el.focus();
                 });
             </script>',
+            'livewireSelectMultiple' => '<script>
+            function dropdown($el) {
+                // Select the node that will be observed for mutations
+                var innerSelectTargetNode = $el.querySelector(\'.livewire-select-input\');
+
+                // Options for the observer (which mutations to observe)
+                var innerSelectMutationObserverConfig = { attributes: true, childList: true, subtree: true };
+
+                // Callback function to execute when mutations are observed
+                const innerSelectMutationObserverCallback = function(mutationsList, observer) {
+
+                    var hasUpdates = false;
+
+                    // Use traditional for loops for IE 11
+                    for(const mutation of mutationsList) {
+                        if (mutation.type === \'childList\') {
+                            hasUpdates = true;
+                            break;
+                        }
+                    }
+
+                    if (hasUpdates) {
+                        innerSelectTargetNode.dispatchEvent(new CustomEvent(\'livewireselectoptionsloaded\', { bubbles: true }));
+                    }
+                };
+
+                // Create an observer instance linked to the callback function
+                var innerSelectMutationObserver = new MutationObserver(innerSelectMutationObserverCallback);
+
+                // Start observing the target node for configured mutations
+                innerSelectMutationObserver.observe(innerSelectTargetNode, innerSelectMutationObserverConfig);
+
+                return {
+                    options: [],
+                    selected: [],
+                    show: false,
+                    open() { this.show = true },
+                    close() { this.show = false },
+                    isOpen() { return this.show === true },
+                    select(index, event) {
+
+                        if (!this.options[index].selected) {
+
+                            this.options[index].selected = true;
+                            this.options[index].element = event.target;
+                            this.selected.push(index);
+
+                        } else {
+                            this.selected.splice(this.selected.lastIndexOf(index), 1);
+                            this.options[index].selected = false
+                        }
+                    },
+                    remove(index, option) {
+                        this.options[option].selected = false;
+                        this.selected.splice(index, 1);
+
+
+                    },
+                    loadOptions(select) {
+                        const options = select.options;
+                        this.options = [];
+                        for (let i = 0; i < options.length; i++) {
+                            this.options.push({
+                                value: options[i].value,
+                                text: options[i].innerText,
+                                selected: options[i].getAttribute(\'selected\') != null ? options[i].getAttribute(\'selected\') : false
+                            });
+                        }
+
+
+                    },
+                    selectedValues() {
+                        return this.selected.map((option)=>{
+                            return this.options[option].value;
+                        });
+                    }
+                }
+            }
+            </script>'
         ];
 
         return $this->renderAssets($assets, $options);
