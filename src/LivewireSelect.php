@@ -4,6 +4,7 @@ namespace Asantibanez\LivewireSelect;
 
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Livewire\Livewire;
 
 /**
  * Class LivewireSelect
