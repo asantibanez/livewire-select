@@ -232,7 +232,8 @@ class LivewireSelect extends Component
 
     public function css($options = null) {
         $assets = [
-
+            'livewire' => Livewire::styles(),
+            'tailwindcss' => '<link rel="stylesheet" href="' . asset('/vendor/tailwind.css') . '" />',
         ];
 
         return $this->renderAssets($assets, $options);
@@ -240,6 +241,8 @@ class LivewireSelect extends Component
 
     public function js($options = null) {
         $assets = [
+            'livewire' => Livewire::scripts(),
+            'alpine' => '<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>',
             'livewireSelect' => '<script>
                 window.livewire.on(\'livewire-select-focus-search\', (data) => {
                     const el = document.getElementById(`${data.name || \'invalid\'}`);
