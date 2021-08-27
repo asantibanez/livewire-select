@@ -393,7 +393,11 @@ class LivewireSelect extends Component
     private function renderAssets($assets = [], $options = null) {
         if ($options) {
             $options = explode(',', $options);
-            $options[] = 'livewireSelect';
+            $options = array_map('trim', $options);
+            if (!in_array('livewireSelect', $options)) {
+                $options[] = 'livewireSelect';
+            }
+
             $assetArray = [];
 
             foreach ($assets as $asset => $link) {
