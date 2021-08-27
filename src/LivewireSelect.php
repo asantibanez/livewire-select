@@ -237,14 +237,14 @@ class LivewireSelect extends Component
             'tailwindcss' => '<link rel="stylesheet" href="' . asset('/vendor/tailwind.css') . '" />',
         ];
 
-        return $this->renderAssets($assets, $options);
+        return $this->renderAssets('css', $assets, $options);
     }
 
     public function js($options = null) {
         $assets = [
             'livewire' => Livewire::scripts(),
             'alpine' => '<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>',
-            'livewireSelect' => '<script>
+            'livewire-select' => '<script>
                 window.livewire.on(\'livewire-select-focus-search\', (data) => {
                     const el = document.getElementById(`${data.name || \'invalid\'}`);
 
@@ -265,7 +265,7 @@ class LivewireSelect extends Component
                     el.focus();
                 });
             </script>',
-            'livewireSelectMultiple' => '<script>
+            'livewire-select-multiple' => '<script>
             function livewireSelectMultiSelectDropdown($el) {
                 // Select the node that will be observed for mutations
                 var innerSelectTargetNode = $el.querySelector(\'.livewire-select-input\');
@@ -346,7 +346,7 @@ class LivewireSelect extends Component
             </script>'
         ];
 
-        return $this->renderAssets($assets, $options);
+        return $this->renderAssets('js', $assets, $options);
     }
 
     public function render()
@@ -390,12 +390,20 @@ class LivewireSelect extends Component
      *
      * @return string
      */
-    private function renderAssets($assets = [], $options = null) {
+    private function renderAssets($assetType = 'js', $assets = [], $options = null) {
         if ($options) {
             $options = explode(',', $options);
             $options = array_map('trim', $options);
-            if (!in_array('livewireSelect', $options)) {
-                $options[] = 'livewireSelect';
+
+            // include mandatory assets
+            switch ($assetType) {
+                case 'js':
+                    if (!in_array('livewire-select', $options)) {
+                        $options[] = 'livewire-select';
+                    }
+                    break;
+                default:
+                    break;
             }
 
             $assetArray = [];
