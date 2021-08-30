@@ -2,12 +2,21 @@
 
     <div x-init="$wire.set('value', {{ $initValueEncoded }})">
         @if(!$searchable && $shouldShow)
-            @include($defaultView, [
-                'name' => $name,
-                'options' => $options,
-                'placeholder' => $placeholder,
-                'styles' => $styles,
-            ])
+            @if(!$multiple)
+                @include($defaultView, [
+                    'name' => $name,
+                    'options' => $options,
+                    'placeholder' => $placeholder,
+                    'styles' => $styles,
+                ])
+            @else
+                @include($multipleView, [
+                    'name' => $name,
+                    'options' => $options,
+                    'placeholder' => $placeholder,
+                    'styles' => $styles,
+                ])
+            @endif
         @endif
     </div>
 
