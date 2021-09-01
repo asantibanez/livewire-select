@@ -6,6 +6,7 @@
 >
     <select
         x-cloak
+        x-show="false"
         name="{{ $name }}"
         class="livewire-select-input"
         x-bind:value="selectedValues()"
@@ -30,7 +31,7 @@
         <div class="w-full block relative">
             <div class="flex flex-col items-center relative">
             <div @click="open" class="w-full">
-                <div class="my-2 p-1 flex border border-gray-200 bg-white rounded">
+                <div class="p-1 flex border border-gray-200 bg-white rounded">
                 <div class="flex flex-auto flex-wrap">
                     <template x-for="(option,index) in selected" :key="option">
                     <div class="flex justify-center items-center m-1 font-medium py-1 px-1 bg-white rounded bg-gray-100 border">
