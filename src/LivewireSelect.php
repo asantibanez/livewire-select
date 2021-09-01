@@ -270,13 +270,13 @@ class LivewireSelect extends Component
             'livewire-select-multiple' => '<script>
             function livewireSelectMultiSelectDropdown($el) {
                 // Select the node that will be observed for mutations
-                var innerSelectTargetNode = $el.querySelector(\'.livewire-select-input\');
+                var relatedSelectTargetNode = $el.querySelector(\'.livewire-select-input\');
 
                 // Options for the observer (which mutations to observe)
-                var innerSelectMutationObserverConfig = { attributes: true, childList: true, subtree: true };
+                var relatedSelectMutationObserverConfig = { attributes: true, childList: true, subtree: true };
 
                 // Callback function to execute when mutations are observed
-                const innerSelectMutationObserverCallback = function(mutationsList, observer) {
+                const relatedSelectMutationObserverCallback = function(mutationsList, observer) {
 
                     var hasUpdates = false;
 
@@ -289,15 +289,15 @@ class LivewireSelect extends Component
                     }
 
                     if (hasUpdates) {
-                        innerSelectTargetNode.dispatchEvent(new CustomEvent(\'livewireselectoptionsloaded\', { bubbles: true }));
+                        relatedSelectTargetNode.dispatchEvent(new CustomEvent(\'livewireselectoptionsloaded\', { bubbles: true }));
                     }
                 };
 
                 // Create an observer instance linked to the callback function
-                var innerSelectMutationObserver = new MutationObserver(innerSelectMutationObserverCallback);
+                var relatedSelectMutationObserver = new MutationObserver(relatedSelectMutationObserverCallback);
 
                 // Start observing the target node for configured mutations
-                innerSelectMutationObserver.observe(innerSelectTargetNode, innerSelectMutationObserverConfig);
+                relatedSelectMutationObserver.observe(relatedSelectTargetNode, relatedSelectMutationObserverConfig);
 
                 return {
                     options: [],
@@ -307,13 +307,11 @@ class LivewireSelect extends Component
                     close() { this.show = false },
                     isOpen() { return this.show === true },
                     select(index, event) {
-
                         if (!this.options[index].selected) {
-
                             this.options[index].selected = true;
-                            this.options[index].element = event.target;
-                            this.selected.push(index);
-
+                            if (this.selected.indexOf(index) === -1) {
+                                this.selected.push(index);
+                            }
                         } else {
                             this.selected.splice(this.selected.lastIndexOf(index), 1);
                             this.options[index].selected = false
@@ -322,28 +320,38 @@ class LivewireSelect extends Component
                     remove(index, option) {
                         this.options[option].selected = false;
                         this.selected.splice(index, 1);
-
-
                     },
-                    loadOptions(select) {
-                        const options = select.options;
+                    loadOptions(selectEl) {
                         this.options = [];
+                        const options = selectEl.options;
                         for (let i = 0; i < options.length; i++) {
+
+                            let isSelected = false;
+                            if (options[i].getAttribute(\'selected\') != null) {
+                                if (this.selected.indexOf(i) === -1) {
+                                    this.selected.push(i);
+                                }
+                                isSelected = true;
+                            }
+
                             this.options.push({
                                 value: options[i].value,
                                 text: options[i].innerText,
-                                selected: options[i].getAttribute(\'selected\') != null ? options[i].getAttribute(\'selected\') : false
+                                selected: isSelected
                             });
                         }
-
-
                     },
-                    selectedValues() {
+                    selectedValues(){
+                        if (!this.options.length) {
+                            return [];
+                        }
+
                         return this.selected.map((option)=>{
                             return this.options[option].value;
-                        });
+                        })
                     }
                 }
+
             }
             </script>'
         ];
