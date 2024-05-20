@@ -1,5 +1,5 @@
 {
-    "name": "asantibanez/livewire-select",
+    "name": "sinarahmany/livewire-select3",
     "description": "Livewire dropdown select component",
     "keywords": [
         "asantibanez",
@@ -18,7 +18,7 @@
     "require": {
         "php": "^7.2|^7.3|^7.4|^8.0",
         "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
-        "livewire/livewire": "^2.0"
+        "livewire/livewire": "^2.0|^3.0"
     },
     "require-dev": {
         "orchestra/testbench": "^5.0|^6.0|^7.0|^8.0|^9.0",
