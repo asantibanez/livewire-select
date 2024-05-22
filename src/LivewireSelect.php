@@ -124,7 +124,7 @@ class LivewireSelect extends Component
 
     public function notifyValueChanged()
     {
-        $this->emit("{$this->name}Updated", [
+        $this->dispatch("{$this->name}Updated", [
             'name' => $this->name,
             'value' => $this->value,
         ]);
@@ -135,11 +135,11 @@ class LivewireSelect extends Component
         $this->value = $value;
 
         if ($this->searchable && $this->value == null) {
-            $this->emit('livewire-select-focus-search', ['name' => $this->name]);
+            $this->dispatch('livewire-select-focus-search', ['name' => $this->name]);
         }
 
         if ($this->searchable && $this->value != null) {
-            $this->emit('livewire-select-focus-selected', ['name' => $this->name]);
+            $this->dispatch('livewire-select-focus-selected', ['name' => $this->name]);
         }
 
         $this->notifyValueChanged();
