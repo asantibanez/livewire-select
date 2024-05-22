@@ -21,7 +21,7 @@
             this.selectedIndex--
         },
         selectDown(component) {
-            if (component.data.optionsValues.length - 1 === this.selectedIndex) {
+            if (component.optionsValues.length - 1 === this.selectedIndex) {
                 return
             }
             this.selectedIndex++
@@ -31,9 +31,9 @@
             this.isOpen = true
         },
         confirmSelection(component) {
-            const value = component.data.optionsValues.length === 1
-                ? component.data.optionsValues[0]
-                : component.data.optionsValues[this.selectedIndex]
+            const value = component.optionsValues.length === 1
+                ? component.optionsValues[0]
+                : component.optionsValues[this.selectedIndex]
 
             if (!value) {
                 return
