@@ -1,7 +1,7 @@
 <select
     name="{{ $name }}"
     class="{{ $styles['default'] }}"
-    wire:model="value">
+    wire:model.live="value">
 
     <option value="">
         {{ $placeholder }}
