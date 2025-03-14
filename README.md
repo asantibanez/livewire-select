@@ -6,12 +6,45 @@ Livewire component for dependant and/or searchable select inputs
 
 ![preview](https://github.com/asantibanez/livewire-select/raw/master/preview.gif) 
 
-### Installation
+### Installation & Basic Usage
+
+#### Installing Livewire Select
 
 You can install the package via composer:
 
 ```bash
 composer require asantibanez/livewire-select
+```
+
+#### Including assets
+
+Add the following Blade directives in the head tag, and before the end body tag in your template
+
+```blade
+...
+    @livewireSelectStyles
+</head>
+<body>
+    ...
+ 
+    @livewireSelectScripts
+</body>
+</html>
+```
+
+Livewire Select includes a set up using different parts of the TALL stack assets like the [Laravel livewire](https://laravel-livewire.com/), [Alpine.js](https://alpinejs.dev/) and [Tailwindcss](https://tailwindcss.com/) styles and scripts.
+After adding these directives you may need to clear the view cache.
+
+```bash
+php artisan view:clear
+```
+
+These directives are fine for a dev environment, however, if you want to use your own livewire, Tailwindcss or Alpine.js setup, you can disable these assets from being loaded with the Laravel views directive.
+
+You can define which assets are included by setting the option parameter in the directive:
+
+```blade
+@livewireSelectScripts(livewire-select, livewire-select-multiple)
 ```
 
 ### Requirements
@@ -179,7 +212,7 @@ You can define the `searchable` attribute on the component to change the behavio
 inputs. With `:searchable="true"` your component will change its behavior to allow searching
 the options returned in the `options()` method.
 
- ```blade
+```blade
 <livewire:car-model-select
     name="car_model_id"
     placeholder="Choose a Car Model"
@@ -190,6 +223,18 @@ the options returned in the `options()` method.
 Your input will look something like this
 
 ![preview](https://github.com/asantibanez/livewire-select/raw/master/searchable.gif)
+
+### Multi-select inputs
+
+You can define the `multiple` attribute on the component to turn the input into a multi-select dropdown using `:multiple="true"`
+
+```blade
+<livewire:car-model-select
+    name="car_model_id"
+    placeholder="Choose a Car Model"
+    :multiple="true"
+/>
+```
 
 To filter the options in the dropdown, you can use the `$searchTerm` parameter in the 
 `options()` method.

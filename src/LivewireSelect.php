@@ -4,6 +4,7 @@ namespace Asantibanez\LivewireSelect;
 
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Livewire\Livewire;
 
 /**
  * Class LivewireSelect
@@ -32,10 +33,13 @@ class LivewireSelect extends Component
     public $placeholder;
 
     public $value;
+    public $initValueEncoded;
     public $optionsValues;
 
     public $searchable;
     public $searchTerm;
+
+    public $multiple;
 
     public $dependsOn;
     public $dependsOnValues;
@@ -46,6 +50,7 @@ class LivewireSelect extends Component
 
     public $selectView;
     public $defaultView;
+    public $multipleView;
     public $searchView;
     public $searchInputView;
     public $searchOptionsContainer;
@@ -57,12 +62,14 @@ class LivewireSelect extends Component
                           $value = null,
                           $placeholder = 'Select an option',
                           $searchable = false,
+                          $multiple = false,
                           $dependsOn = [],
                           $dependsOnValues = [],
                           $waitForDependenciesToShow = false,
                           $noResultsMessage = 'No options found',
                           $selectView = 'livewire-select::select',
                           $defaultView = 'livewire-select::default',
+                          $multipleView = 'livewire-select::multiple',
                           $searchView = 'livewire-select::search',
                           $searchInputView = 'livewire-select::search-input',
                           $searchOptionsContainer = 'livewire-select::search-options-container',
@@ -75,9 +82,12 @@ class LivewireSelect extends Component
         $this->placeholder = $placeholder;
 
         $this->value = $value;
+        $this->initValueEncoded = json_encode($value);
 
         $this->searchable = $searchable;
         $this->searchTerm = '';
+
+        $this->multiple = !!$multiple;
 
         $this->dependsOn = $dependsOn;
 
@@ -97,6 +107,7 @@ class LivewireSelect extends Component
 
         $this->selectView = $selectView;
         $this->defaultView = $defaultView;
+        $this->multipleView = $multipleView;
         $this->searchView = $searchView;
         $this->searchInputView = $searchInputView;
         $this->searchOptionsContainer = $searchOptionsContainer;
@@ -119,7 +130,7 @@ class LivewireSelect extends Component
 
     public function selectedOption($value)
     {
-        return null;
+        return $value;
     }
 
     public function notifyValueChanged()
@@ -222,6 +233,132 @@ class LivewireSelect extends Component
         ];
     }
 
+    public function css($options = null) {
+        $assets = [
+            'livewire' => Livewire::styles(),
+            'tailwindcss' => '<link rel="stylesheet" href="' . asset('/vendor/tailwind.css') . '" />',
+        ];
+
+        return $this->renderAssets('css', $assets, $options);
+    }
+
+    public function js($options = null) {
+        $assets = [
+            'livewire' => Livewire::scripts(),
+            'alpine' => '<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>',
+            'livewire-select' => '<script>
+                window.livewire.on(\'livewire-select-focus-search\', (data) => {
+                    const el = document.getElementById(`${data.name || \'invalid\'}`);
+
+                    if (!el) {
+                        return;
+                    }
+
+                    el.focus();
+                });
+
+                window.livewire.on(\'livewire-select-focus-selected\', (data) => {
+                    const el = document.getElementById(`${data.name || \'invalid\'}-selected`);
+
+                    if (!el) {
+                        return;
+                    }
+
+                    el.focus();
+                });
+            </script>',
+            'livewire-select-multiple' => '<script>
+            function livewireSelectMultiSelectDropdown($el) {
+                // Select the node that will be observed for mutations
+                var relatedSelectTargetNode = $el.querySelector(\'.livewire-select-input\');
+
+                // Options for the observer (which mutations to observe)
+                var relatedSelectMutationObserverConfig = { attributes: true, childList: true, subtree: true };
+
+                // Callback function to execute when mutations are observed
+                const relatedSelectMutationObserverCallback = function(mutationsList, observer) {
+
+                    var hasUpdates = false;
+
+                    // Use traditional for loops for IE 11
+                    for(const mutation of mutationsList) {
+                        if (mutation.type === \'childList\') {
+                            hasUpdates = true;
+                            break;
+                        }
+                    }
+
+                    if (hasUpdates) {
+                        relatedSelectTargetNode.dispatchEvent(new CustomEvent(\'livewireselectoptionsloaded\', { bubbles: true }));
+                    }
+                };
+
+                // Create an observer instance linked to the callback function
+                var relatedSelectMutationObserver = new MutationObserver(relatedSelectMutationObserverCallback);
+
+                // Start observing the target node for configured mutations
+                relatedSelectMutationObserver.observe(relatedSelectTargetNode, relatedSelectMutationObserverConfig);
+
+                return {
+                    options: [],
+                    selected: [],
+                    show: false,
+                    open() { this.show = true },
+                    close() { this.show = false },
+                    isOpen() { return this.show === true },
+                    select(index, event) {
+                        if (!this.options[index].selected) {
+                            this.options[index].selected = true;
+                            if (this.selected.indexOf(index) === -1) {
+                                this.selected.push(index);
+                            }
+                        } else {
+                            this.selected.splice(this.selected.lastIndexOf(index), 1);
+                            this.options[index].selected = false
+                        }
+                    },
+                    remove(index, option) {
+                        this.options[option].selected = false;
+                        this.selected.splice(index, 1);
+                    },
+                    loadOptions(selectEl) {
+                        this.options = [];
+                        const options = selectEl.options;
+                        for (let i = 0; i < options.length; i++) {
+
+                            let isSelected = false;
+                            if (options[i].getAttribute(\'selected\') != null) {
+                                if (this.selected.indexOf(i) === -1) {
+                                    this.selected.push(i);
+                                }
+                                isSelected = true;
+                            }
+
+                            this.options.push({
+                                value: options[i].value,
+                                text: options[i].innerText,
+                                selected: isSelected
+                            });
+                        }
+                    },
+                    selectedValues(){
+                        if (!this.options.length) {
+                            return [];
+                        }
+
+                        return this.selected.map((option)=>{
+                            return this.options[option].value;
+                        })
+                    }
+                }
+
+            }
+            </script>'
+        ];
+
+        return $this->renderAssets('js', $assets, $options);
+    }
+
     public function render()
     {
         if ($this->searchable) {
@@ -248,10 +385,52 @@ class LivewireSelect extends Component
 
         return view($this->selectView)
             ->with([
+                'initValueEncoded' => $this->initValueEncoded,
                 'options' => $options,
                 'selectedOption' => $selectedOption ?? null,
                 'shouldShow' => $shouldShow,
                 'styles' => $styles,
             ]);
+    }
+
+    /**
+     * Generate a string of required assets
+     *
+     * @param array $assets
+     * @param array $options
+     *
+     * @return string
+     */
+    private function renderAssets($assetType = 'js', $assets = [], $options = null) {
+        if ($options) {
+            $options = explode(',', $options);
+            $options = array_map('trim', $options);
+
+            // include mandatory assets
+            switch ($assetType) {
+                case 'js':
+                    if (!in_array('livewire-select', $options)) {
+                        $options[] = 'livewire-select';
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            $assetArray = [];
+
+            foreach ($assets as $asset => $link) {
+                if (in_array($asset, $options)) {
+                    $assetArray[] = $link;
+                }
+            }
+        } else {
+            $assetArray = $assets;
+        }
+
+        $assetStr = implode(PHP_EOL, $assetArray);
+        return <<<HTML
+            {$assetStr}
+        HTML;
     }
 }

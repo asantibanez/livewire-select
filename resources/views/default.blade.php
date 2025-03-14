@@ -8,7 +8,10 @@
     </option>
 
     @foreach($options as $option)
-        <option value="{{ $option['value'] }}">
+        <option
+            value="{{ $option['value'] }}"
+            {!! (json_decode($initValueEncoded) && $option['value'] == json_decode($initValueEncoded)) ? 'selected' : '' !!}
+        >
             {{ $option['description'] }}
         </option>
     @endforeach
