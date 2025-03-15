@@ -23,24 +23,36 @@ class LivewireSelectServiceProvider extends ServiceProvider
         Blade::directive('livewireSelectScripts', function () {
             return <<<'HTML'
                 <script>
-                        window.livewire.on('livewire-select-focus-search', (data) => {
-                            const el = document.getElementById(`${data.name || 'invalid'}`);
+                        window.Livewire.on('livewire-select-focus-search', (data) => {
+                            setTimeout(() => {
+                                const elementId = `${data[0].name || 'invalid'}`;
+                                const el = document.getElementById(elementId);
+                                console.log('focus-search')
+                                console.log(elementId)
+                                console.log(el);
 
-                            if (!el) {
-                                return;
-                            }
+                                if (!el) {
+                                    return;
+                                }
 
-                            el.focus();
+                                el.focus();
+                            }, 100);
                         });
 
-                        window.livewire.on('livewire-select-focus-selected', (data) => {
-                            const el = document.getElementById(`${data.name || 'invalid'}-selected`);
+                        window.Livewire.on('livewire-select-focus-selected', (data) => {
+                            setTimeout(() => {
+                                const elementId = `${data[0].name || 'invalid'}-selected`;
+                                const el = document.getElementById(elementId);
+                                console.log('focus-selected')
+                                console.log(elementId)
+                                console.log(el);
 
-                            if (!el) {
-                                return;
-                            }
+                                if (!el) {
+                                    return;
+                                }
 
-                            el.focus();
+                                el.focus();
+                            }, 100);
                         });
                     </script>
 HTML;
