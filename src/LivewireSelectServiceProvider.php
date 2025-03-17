@@ -27,9 +27,6 @@ class LivewireSelectServiceProvider extends ServiceProvider
                             setTimeout(() => {
                                 const elementId = `${data[0].name || 'invalid'}`;
                                 const el = document.getElementById(elementId);
-                                console.log('focus-search')
-                                console.log(elementId)
-                                console.log(el);
 
                                 if (!el) {
                                     return;
@@ -43,9 +40,6 @@ class LivewireSelectServiceProvider extends ServiceProvider
                             setTimeout(() => {
                                 const elementId = `${data[0].name || 'invalid'}-selected`;
                                 const el = document.getElementById(elementId);
-                                console.log('focus-selected')
-                                console.log(elementId)
-                                console.log(el);
 
                                 if (!el) {
                                     return;
