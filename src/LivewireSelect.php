@@ -32,6 +32,7 @@ class LivewireSelect extends Component
     public $placeholder;
 
     public $value;
+    public $initValueEncoded;
     public $optionsValues;
 
     public $searchable;
@@ -75,6 +76,7 @@ class LivewireSelect extends Component
         $this->placeholder = $placeholder;
 
         $this->value = $value;
+        $this->initValueEncoded = json_encode($value);
 
         $this->searchable = $searchable;
         $this->searchTerm = '';
@@ -119,7 +121,7 @@ class LivewireSelect extends Component
 
     public function selectedOption($value)
     {
-        return null;
+        return $value;
     }
 
     public function notifyValueChanged()
@@ -248,6 +250,7 @@ class LivewireSelect extends Component
 
         return view($this->selectView)
             ->with([
+                'initValueEncoded' => $this->initValueEncoded,
                 'options' => $options,
                 'selectedOption' => $selectedOption ?? null,
                 'shouldShow' => $shouldShow,
